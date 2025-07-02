@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Portfolio - Skills</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet" />
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: #121212;
+    color: #e2e8f0;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* Container */
+  .container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: rgba(18, 18, 18, 0.95);
+    backdrop-filter: blur(8px);
+    z-index: 1000;
+    padding: 1rem 2rem;
+  }
+
+  .nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .logo {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #00bfa5;
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    list-style: none;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-top: 0.5rem;
+  }
+
+  .nav-links a {
+    color: #e2e8f0;
+    text-decoration: none;
+    transition: color 0.3s ease, border-bottom 0.3s ease;
+    position: relative;
+    font-weight: 500;
+  }
+
+  .nav-links a:hover,
+  .nav-links a.active {
+    color: #64ffda;
+    border-bottom: 2px solid #64ffda;
+  }
+
+  /* Main content */
+  .main-content {
+    flex: 1;
+    padding: 120px 2rem 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  /* Page header styles */
+  .page-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    animation: fadeInUp 0.8s ease-out;
+  }
+
+  .page-title {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, #00bfa5, #ff4081);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+  }
+
+  .page-subtitle {
+    font-size: 1.2rem;
+    color: #a0a0a0;
+  }
+
+  /* Skills grid - Updated to show 3 categories per row */
+  .skills-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-bottom: 3rem;
+  }
+
+  /* Skill category style */
+  .skill-category {
+    background: rgba(26, 31, 46, 0.8);
+    padding: 2rem;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(100, 255, 218, 0.1);
+    transition: all 0.3s ease;
+    animation: fadeInUp 0.8s ease-out;
+  }
+
+  .skill-category:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 191, 165, 0.4);
+    border-color: rgba(100, 255, 218, 0.3);
+  }
+
+  .category-title {
+    font-size: 1.5rem;
+    color: #64ffda;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .category-icon {
+    width: 24px;
+    height: 24px;
+    fill: #64ffda;
+  }
+
+  .skills-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+
+  .skill-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 1rem;
+    background: rgba(15, 23, 42, 0.5);
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(100, 255, 218, 0.05);
+    text-align: center;
+  }
+
+  .skill-item:hover {
+    background: rgba(15, 23, 42, 0.8);
+    border-color: rgba(100, 255, 218, 0.2);
+    transform: translateY(-5px);
+  }
+
+  .skill-logo {
+    width: 45px;
+    height: 45px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+  }
+
+  .skill-logo img {
+    width: 35px;
+    height: 35px;
+    object-fit: contain;
+  }
+
+  .skill-info {
+    flex: 1;
+    width: 100%;
+  }
+
+  .skill-name {
+    font-weight: 600;
+    color: #e2e8f0;
+    font-size: 0.9rem;
+    margin-bottom: 0.8rem;
+    line-height: 1.3;
+  }
+
+  .skill-bar {
+    width: 100%;
+    height: 6px;
+    background: rgba(100, 255, 218, 0.1);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+  }
+
+  .skill-progress {
+    height: 100%;
+    background: linear-gradient(90deg, #64ffda, #a78bfa);
+    width: 0%;
+    transition: width 2s ease-in-out;
+    border-radius: 3px;
+  }
+
+  .skill-level {
+    font-size: 0.8rem;
+    color: #94a3b8;
+    font-weight: 500;
+  }
+
+  /* Animations */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(50px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes logoGlow {
+    0%, 100% {
+      box-shadow: 0 0 5px rgba(100, 255, 218, 0.3);
+    }
+    50% {
+      box-shadow: 0 0 20px rgba(100, 255, 218, 0.6);
+    }
+  }
+
+  .skill-item:hover .skill-logo {
+    animation: logoGlow 2s infinite;
+    transform: scale(1.1);
+  }
+
+  /* Responsive tweaks */
+  @media(max-width: 1200px) {
+    .skills-container {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .skills-list {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media(max-width: 768px) {
+    .nav {
+      padding: 1rem;
+    }
+    .nav-container {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .nav-links {
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .main-content {
+      padding: 120px 1rem 2rem;
+    }
+    .page-title {
+      font-size: 2rem;
+    }
+    .skills-container {
+      grid-template-columns: 1fr;
+    }
+    .skills-list {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.8rem;
+    }
+    .skill-item {
+      padding: 0.8rem;
+    }
+    .skill-logo {
+      width: 40px;
+      height: 40px;
+    }
+    .skill-logo img {
+      width: 30px;
+      height: 30px;
+    }
+    .skill-name {
+      font-size: 0.8rem;
+    }
+  }
+
+  @media(max-width: 480px) {
+    .skills-list {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <!-- Navigation -->
+  <nav class="nav" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="logo">Portfolio</a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="education.html">Education</a></li>
+        <li><a href="skills.html" class="active">Skills</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="page-header">
+      <h1 class="page-title">Skills</h1>
+      <p class="page-subtitle">My Technical Expertise</p>
+    </div>
+
+    <div class="skills-container">
+      <!-- Development tools -->
+      <div class="skill-category">
+        <h3 class="category-title">
+          <svg class="category-icon" viewBox="0 0 24 24">
+            <path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"/>
+            <line x1="16" y1="8" x2="2" y2="22"/>
+            <line x1="17.5" y1="15" x2="9" y2="15"/>
+          </svg>
+          Development Tools
+        </h3>
+        <div class="skills-list">
+          <div class="skill-item">
+            <div class="skill-logo">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flutter/flutter-original.svg" alt="Flutter">
+            </div>
+            <div class="skill-info">
+              <div class="skill-name">Flutter</div>
+              <div class="skill-bar">
+                <div class="skill-progress" data-width="60"></div>
+              </div>
+              <span class="skill-level">60%</span>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-logo">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg" alt="VS Code">
+            </div>
+            <div class="skill-info">
+              <div class="skill-name">Visual Studio Code</div>
+              <div class="skill-bar">
+                <div class="skill-progress" data-width="60"></div>
+              </div>
+              <span class="skill-level">60%</span>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-logo">
+              <img src="assets/textmate-icon.png" alt="TextMate">
+            </div>
+            <div class="skill-info">
+              <div class="skill-name">TextMate</div>
+              <div class="skill-bar">
+                <div class="skill-progress" data-width="40"></div>
+              </div>
+              <span class="skill-level">40%</span>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-logo">
+              <img src="assets/notepad-icon.png" alt="Notepad++">
+            </div>
+            <div class="skill-info">
+              <div class="skill-name">Notepad++</div>
+              <div class="skill-bar">
+                <div class="skill-progress" data-width="30"></div>
+              </div>
+              <span class="skill-level">30%</span>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-logo">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/androidstudio/androidstudio-original.svg" alt="Android Studio">
+            </div>
+            <div class="skill-info">
+              <div class="skill-name">Android Studio</div>
+              <div class="skill-bar">
+                <div class="skill-progress" data-width="40"></div>
+              </div>
+              <span class="skill-level">40%</span>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-logo">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/xcode/xcode-original.svg" alt="Xcode">
+            </div>
+            <div class="skill-info">
+              <div class="skill-name">Xcode</div>
+              <div class="skill-bar">
+                <div class="skill-progress" data-width="50"></div>
+              </div>
+              <span class="skill-level">50%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Design Tools -->
+      <div class="skill-category">
+        <h3 class="category-title">
+          <svg class="category-icon" viewBox="0 0 24 24">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
+          Design Tools
+        </h3>
+        <div class="skills-list">
+          <div class="skill-item">
+            <div class="skill-logo">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg" alt="Figma">
+            </div>
+            <div class="skill-info">
+              <div class="skill-name">Figma</div>
+              <div class="skill-bar">
+                <div class="skill-progress" data-width="70"></div>
+              </div>
+              <span class="skill-level">70%</span>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-logo">
+              <img src="assets/flutterflow-icon.png" alt="FlutterFlow">
+            </div>
+            <div class="skill-info">
+              <div class="skill-name">FlutterFlow</div>
+              <div class="skill-bar">
+                <div class="skill-progress" data-width="40"></div>
+              </div>
+              <span class="skill-level">40%</span>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-logo">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/canva/canva-original.svg" alt="Canva">
+            </div>
+            <div class="skill-info">
+              <div class="skill-name">Canva</div>
+              <div class="skill-bar">
+                <div class="skill-progress" data-width="90"></div>
+              </div>
+              <span class="skill-level">90%</span>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-logo">
+              <img src="https://img.icons8.com/color/48/autocad.png" alt="AutoCAD">
+            </div>
+            <div class="skill-info">
+              <div class="skill-name">AutoCAD</div>
+              <div class="skill-bar">
+                <div class="skill-progress" data-width="20"></div>
+              </div>
+              <span class="skill-level">20%</span>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-logo">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/xd/xd-original.svg" alt="Adobe XD">
+            </div>
+            <div class="skill-info">
+              <div class="skill-name">Adobe XD</div>
+              <div class="skill-bar">
+                <div class="skill-progress" data-width="20"></div>
+              </div>
+              <span class="skill-level">20%</span>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-logo">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/photoshop/photoshop-original.svg" alt="Photoshop">
+            </div>
+            <div class="skill-info">
+              <div class="skill-name">Photoshop</div>
+              <div class="skill-bar">
+                <div class="skill-progress" data-width="50"></div>
+              </div>
+              <span class="skill-level">50%</span>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-logo">           
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/illustrator/illustrator-line.svg" alt="Illustrator">
+            </div>
+            <div class="skill-info">
+              <div class="skill-name">Illustrator</div>
+              <div class="skill-bar">
+                <div class="skill-progress" data-width="60"></div>
+              </div>
+              <span class="skill-level">60%</span>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-logo">
+              <img src="https://img.icons8.com/color/48/adobe-indesign.png" alt="InDesign">
+            </div>
+            <div class="skill-info">
+              <div class="skill-name">InDesign</div>
+              <div class="skill-bar">
+                <div class="skill-progress" data-width="25"></div>
+              </div>
+              <span class="skill-level">25%</span>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-logo">
+              <img src="https://img.icons8.com/color/48/adobe-lightroom.png" alt="Lightroom">
+            </div>
+            <div class="skill-info">
+              <div class="skill-name">Lightroom</div>
+              <div class="skill-bar">
+                <div class="skill-progress" data-width="50"></div>
+              </div>
+              <span class="skill-level">50%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Video Editing & Animation -->
+      <div class="skill-category">
+        <h3 class="category-title">
+          <svg class="category-icon" viewBox="0 0 24 24">
+            <path d="M8 5v14l11-7z"/>
+          </svg>
+          Video Editing & Animation
+        </h3>
+        <div class="skills-list">
+          <div class="skill-item">
+            <div class="skill-logo">
+              <img src="assets/capcut-icon.png" alt="CapCut">
+            </div>
+            <div class="skill-info">
+              <div class="skill-name">CapCut</div>
+              <div class="skill-bar">
+                <div class="skill-progress" data-width="85"></div>
+              </div>
+              <span class="skill-level">85%</span>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-logo">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/canva/canva-original.svg" alt="Canva Video">
+            </div>
+            <div class="skill-info">
+              <div class="skill-name">Canva Video</div>
+              <div class="skill-bar">
+                <div class="skill-progress" data-width="85"></div>
+              </div>
+              <span class="skill-level">85%</span>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-logo">
+              <img src="assets/alightmotion-icon.png" alt="Alight Motion">
+            </div>
+            <div class="skill-info">
+              <div class="skill-name">Alight Motion</div>
+              <div class="skill-bar">
+                <div class="skill-progress" data-width="90"></div>
+              </div>
+              <span class="skill-level">90%</span>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-logo">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/premierepro/premierepro-original.svg" alt="Premiere Pro">
+            </div>
+            <div class="skill-info">
+              <div class="skill-name">Premiere Pro</div>
+              <div class="skill-bar">
+                <div class="skill-progress" data-width="20"></div>
+              </div>
+              <span class="skill-level">20%</span>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-logo">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/blender/blender-original.svg" alt="Blender">
+            </div>
+            <div class="skill-info">
+              <div class="skill-name">Blender</div>
+              <div class="skill-bar">
+                <div class="skill-progress" data-width="25"></div>
+              </div>
+              <span class="skill-level">25%</span>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-logo">
+              <img src="https://img.icons8.com/color/48/adobe-animate.png" alt="Adobe Animate">
+            </div>
+            <div class="skill-info">
+              <div class="skill-name">Adobe Animate</div>
+              <div class="skill-bar">
+                <div class="skill-progress" data-width="30"></div>
+              </div>
+              <span class="skill-level">30%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Programming Languages -->
+      <div class="skill-category">
+        <h3 class="category-title">
+          <svg class="category-icon" viewBox="0 0 24 24">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+          </svg>
+          Programming Languages
+        </h3>
+        <div class="skills-list">
+          <div class="skill-item">
+            <div class="skill-logo">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML">
+            </div>
+            <div class="skill-info">
+              <div class="skill-name">HTML</div>
+              <div class="skill-bar">
+                <div class="skill-progress" data-width="40"></div>
+              </div>
+              <span class="skill-level">40%</span>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-logo">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS">
+            </div>
+            <div class="skill-info">
+              <div class="skill-name">CSS</div>
+              <div class="skill-bar">
+                <div class="skill-progress" data-width="35"></div>
+              </div>
+              <span class="skill-level">35%</span>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-logo">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="Java">
+            </div>
+            <div class="skill-info">
+              <div class="skill-name">Java</div>
+              <div class="skill-bar">
+                <div class="skill-progress" data-width="25"></div>
+              </div>
+              <span class="skill-level">25%</span>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-logo">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dart/dart-original.svg" alt="Dart">
+            </div>
+            <div class="skill-info">
+              <div class="skill-name">Dart</div>
+              <div class="skill-bar">
+                <div class="skill-progress" data-width="50"></div>
+              </div>
+              <span class="skill-level">50%</span>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-logo">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python">
+            </div>
+            <div class="skill-info">
+              <div class="skill-name">Python</div>
+              <div class="skill-bar">
+                <div class="skill-progress" data-width="15"></div>
+              </div>
+              <span class="skill-level">15%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Microsoft -->
+      <div class="skill-category">
+        <h3 class="category-title">
+          <svg class="category-icon" viewBox="0 0 24 24">
+            <path d="M20 3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h8v2zm3-4H7v-2h11v2zm0-4H7V7h11v2z"/>
+          </svg>
+          Microsoft
+        </h3>
+        <div class="skills-list">
+          <div class="skill-item">
+            <div class="skill-logo">
+              <img src="https://img.icons8.com/color/48/microsoft-word-2019.png" alt="Word">
+            </div>
+            <div class="skill-info">
+              <div class="skill-name">Microsoft Word</div>
+              <div class="skill-bar">
+                <div class="skill-progress" data-width="90"></div>
+              </div>
+              <span class="skill-level">90%</span>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-logo">
+              <img src="https://img.icons8.com/color/48/microsoft-powerpoint-2019.png" alt="PowerPoint">
+            </div>
+            <div class="skill-info">
+              <div class="skill-name">PowerPoint</div>
+              <div class="skill-bar">
+                <div class="skill-progress" data-width="85"></div>
+              </div>
+              <span class="skill-level">85%</span>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-logo">
+              <img src="https://img.icons8.com/color/48/microsoft-excel-2019.png" alt="Excel">
+            </div>
+            <div class="skill-info">
+              <div class="skill-name">Microsoft Excel</div>
+              <div class="skill-bar">
+                <div class="skill-progress" data-width="65"></div>
+              </div>
+              <span class="skill-level">65%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Databases & Backend -->
+      <div class="skill-category">
+        <h3 class="category-title">
+          <svg class="category-icon" viewBox="0 0 24 24">
+            <path d="M12 15l-2-5h4l-2 5zM8 3v2h8V3H8zM4 7v10h16V7H4z"/>
+          </svg>
+          Databases & Backend
+        </h3>
+        <div class="skills-list">
+          <div class="skill-item">
+            <div class="skill-logo">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg" alt="Firebase">
+            </div>
+            <div class="skill-info">
+              <div class="skill-name">Firebase</div>
+              <div class="skill-bar">
+                <div class="skill-progress" data-width="70"></div>
+              </div>
+              <span class="skill-level">70%</span>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-logo">
+              <img src="assets/phpmyadmin-icon.png" alt="phpMyAdmin">
+            </div>
+            <div class="skill-info">
+              <div class="skill-name">phpMyAdmin</div>
+              <div class="skill-bar">
+                <div class="skill-progress" data-width="35"></div>
+              </div>
+              <span class="skill-level">35%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<script>
+  // Animate skill bars
+  document.addEventListener('DOMContentLoaded', function() {
+    const skillBars = document.querySelectorAll('.skill-progress');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const width = entry.target.getAttribute('data-width');
+          entry.target.style.width = width + '%';
+        }
+      });
+    }, {
+      threshold: 0.5
+    });
+    skillBars.forEach(bar => {
+      observer.observe(bar);
+    });
+
+    // Animate categories
+    const categories = document.querySelectorAll('.skill-category');
+    categories.forEach((cat, index) => {
+      cat.style.animationDelay = `${index * 0.2}s`;
+    });
+
+    // Enhanced hover effects
+    categories.forEach(cat => {
+      cat.addEventListener('mouseenter', () => {
+        cat.style.transform = 'translateY(-15px) scale(1.02)';
+      });
+      cat.addEventListener('mouseleave', () => {
+        cat.style.transform = 'translateY(0) scale(1)';
+      });
+    });
+
+    // Logo loading fallback
+    document.querySelectorAll('.skill-logo img').forEach(img => {
+      img.addEventListener('error', function() {
+        this.style.display = 'none';
+        this.parentElement.innerHTML = '<div style="width: 30px; height: 30px; background: #64ffda; border-radius: 4px;"></div>';
+      });
+    });
+  });
+</script>
+</body>
+</html>
+              

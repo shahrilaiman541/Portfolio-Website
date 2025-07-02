@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Portfolio - Projects</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: #121212;
+    color: #e2e8f0;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  .container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: rgba(18, 18, 18, 0.95);
+    backdrop-filter: blur(8px);
+    z-index: 1000;
+    padding: 1rem 2rem;
+  }
+
+  .nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .logo {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #00bfa5;
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    list-style: none;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-top: 0.5rem;
+  }
+
+  .nav-links a {
+    color: #e2e8f0;
+    text-decoration: none;
+    transition: color 0.3s ease, border-bottom 0.3s ease;
+    position: relative;
+    font-weight: 500;
+  }
+
+  .nav-links a:hover,
+  .nav-links a.active {
+    color: #64ffda;
+    border-bottom: 2px solid #64ffda;
+  }
+
+  /* Main Content */
+  .main-content {
+    flex: 1;
+    padding: 120px 2rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  /* Page header styles */
+  .page-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    animation: fadeInUp 0.8s ease-out;
+  }
+
+  .page-title {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, #00bfa5, #ff4081);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+  }
+
+  .page-subtitle {
+    font-size: 1.2rem;
+    color: #a0a0a0;
+  }
+
+  /* Filter Buttons */
+  .filter-container {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+  }
+
+  .filter-btn {
+    padding: 0.8rem 1.5rem;
+    border: 2px solid #64ffda;
+    background: transparent;
+    color: #64ffda;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  .filter-btn:hover,
+  .filter-btn.active {
+    background: #64ffda;
+    color: #0f1419;
+    transform: translateY(-2px);
+  }
+
+  /* Projects Grid */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+  }
+
+  .project-card {
+    background: rgba(26, 31, 46, 0.8);
+    border-radius: 15px;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(100, 255, 218, 0.1);
+    transition: all 0.3s ease;
+    animation: fadeInUp 0.8s ease-out;
+    opacity: 1;
+  }
+
+  .project-card.hidden {
+    display: none;
+  }
+
+  .project-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    border-color: rgba(100, 255, 218, 0.3);
+  }
+
+  .project-image {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%; /* 16:9 Aspect Ratio (9 / 16 = 0.5625) */
+    overflow: hidden;
+    border-bottom: 1px solid rgba(100, 255, 218, 0.1);
+  }
+
+  .project-image img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Changed to contain to avoid cropping and ensure full visibility */
+    display: block;
+  }
+
+  .project-image::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, rgba(100, 255, 218, 0.1), rgba(167, 139, 250, 0.1));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .project-card:hover .project-image::before {
+    opacity: 1;
+  }
+
+  .project-content {
+    padding: 1.5rem;
+  }
+
+  .project-title {
+    font-size: 1.3rem;
+    color: #e2e8f0;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+  }
+
+  .project-description {
+    color: #94a3b8;
+    margin-bottom: 1rem;
+    line-height: 1.6;
+    font-size: 0.95rem;
+  }
+
+  .project-tools {
+    margin-bottom: 1.5rem;
+  }
+
+  .tools-title {
+    font-size: 0.85rem;
+    color: #64ffda;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+  }
+
+  .tools-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .tool-placeholder {
+    width: 32px;
+    height: 32px;
+    background: rgba(100, 255, 218, 0.1);
+    border: 1px solid rgba(100, 255, 218, 0.2);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    color: #64ffda;
+    transition: all 0.3s ease;
+  }
+
+  .tool-placeholder:hover {
+    background: rgba(100, 255, 218, 0.2);
+    transform: scale(1.1);
+  }
+
+  .project-category {
+    display: inline-block;
+    padding: 0.3rem 0.8rem;
+    background: rgba(167, 139, 250, 0.1);
+    color: #a78bfa;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    border: 1px solid rgba(167, 139, 250, 0.2);
+    margin-bottom: 1rem;
+  }
+
+  /* Animations */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(50px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Mobile Responsive */
+  @media (max-width: 768px) {
+    .nav {
+      padding: 1rem;
+    }
+
+    .nav-links {
+      gap: 1rem;
+    }
+
+    .main-content {
+      padding: 100px 1rem 2rem;
+    }
+
+    .page-title {
+      font-size: 2rem;
+    }
+
+    .projects-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .filter-container {
+      gap: 0.5rem;
+    }
+
+    .filter-btn {
+      padding: 0.6rem 1rem;
+      font-size: 0.8rem;
+    }
+  }
+</style>
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation -->
+        <nav class="nav" id="navbar">
+            <div class="nav-container">
+                <a href="index.html" class="logo">Portfolio</a>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="education.html">Education</a></li>
+                    <li><a href="skills.html">Skills</a></li>
+                    <li><a href="projects.html" class="active">Projects</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="page-header">
+                <h1 class="page-title">Projects</h1>
+                <p class="page-subtitle">My Creative Work & Innovations</p>
+            </div>
+
+            <!-- Filter Buttons -->
+            <div class="filter-container">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="design">Design</button>
+                <button class="filter-btn" data-filter="web">Web Development</button>
+                <button class="filter-btn" data-filter="app">Application Development</button>
+                <button class="filter-btn" data-filter="video">Video & Animation</button>
+                <button class="filter-btn" data-filter="game">Game Development</button>
+            </div>
+
+            <!-- Projects Grid -->
+            <div class="projects-grid">
+                <!-- Design Projects -->
+                 <div class="project-card" data-category="design">
+                    <div class="project-image">
+                        <img src="assets/gp.png" alt="Game Packaging Design Preview"/>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-category">Design</div>
+                        <h3 class="project-title">Game Packaging Design</h3>
+                        <p class="project-description">
+                            The project is aimed at developing a design that would be beautiful as well as solid packaging of the game called, Legend on the Run.
+                            The design will focus on the adventurous and dynamic theme of the game making use of bright colors,
+                            large typography and eye catching art work that creates a reflection of the characters and the story behind the game.
+                            With Canva, the package will consist of all the necessary details, which include the name of the game,
+                            important visuals and product specifics so that the goal of securing a catchy yet professional presentation of the product
+                            will be achieved and, at the same time, be able to impress the potential players, as well as explain the distinctive character of the game.
+                        </p>
+                        <div class="project-tools">
+                            <div class="tools-title">Tools Used:</div>
+                            <div class="tools-grid">
+                                <div class="tool-placeholder">CV</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card" data-category="design">
+                    <div class="project-image">
+                        <img src="assets/exhibition.png" alt="Exhibition Poster Preview"/>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-category">Design</div>
+                        <h3 class="project-title">Exhibition Poster</h3>
+                        <p class="project-description">
+                            In this project, an informative and attractively looking poster will be designed of the exhibition of the
+                            Cik IQA Car Rental UUM Mobile Application, as the poster uploaded. The structure is well organized and includes such sections as
+                            Introduction, Methodology, Novelty, Impact, and Commercialization in a professional color palette with orange and white highlights.
+                            It contains the major information of the title of the project, the focus on clients and the screenshots of the interface,
+                            as well as the photos of the team members and their logos of the UUM and other affiliation. The poster focuses on the description
+                            of the innovative car rental system in the app and its advantages; therefore, it succeeds in conveying the idea of the project
+                            and its accomplishments.
+                        </p>
+                        <div class="project-tools">
+                            <div class="tools-title">Tools Used:</div>
+                            <div class="tools-grid">
+                                <div class="tool-placeholder">CV</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card" data-category="design">
+                    <div class="project-image">
+                        <img src="assets/postermemanah.png" alt="Archery Poster Preview"/>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-category">Design</div>
+                        <h3 class="project-title">Archery Poster</h3>
+                        <p class="project-description">
+                            The current project is associated with the development of an engaging poster to implement the event based on the theme of archery and motivated by the poster of the Raja Memanah festival. The design created in Canva, Photoshop and Adobe illustrator will have a retro style, with decorative frames and parchment background with such details as the name of the event, date (12 Mei - 15 Mei), time (4:00 PM - 8:30 PM) and prices (e.g., RM 3 3 busur, RM 5 7 busur). They will use bold typography, an arrow pattern, and affiliation logos, which will have a professional and appealing promotion with attractive prizes to the participants.
+                        </p>
+                        <div class="project-tools">
+                            <div class="tools-title">Tools Used:</div>
+                            <div class="tools-grid">
+                                <div class="tool-placeholder">CV</div>
+                                <div class="tool-placeholder">PS</div>
+                                <div class="tool-placeholder">AI</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card" data-category="design">
+                    <div class="project-image">
+                        <img src="assets/aerodance.png" alt="Aerodance Poster Preview"/>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-category">Design</div>
+                        <h3 class="project-title">Aerodance Poster</h3>
+                        <p class="project-description">
+                            In this project, the team will design a colorful poster of an aerodance show, named as Ritma Jiwa Sejahtera, which is based on the post attached. In Canva, Photoshop, and Adobe Illustrator, the design will incorporate a decorative background in beige color with purple and gold trims in the display of the event, the date (Tuesday, 14 May), time (8:30 AM) and place ( Open Hall, Inasis TNB RM6). It will contain a group photo of the participants, QR code upon registration, and UUM and affiliation logos, and will be designed with the aim to spread the word about the event devoted to 10 challenging gifts with the lively and consistent visual message.
+                        </p>
+                        <div class="project-tools">
+                            <div class="tools-title">Tools Used:</div>
+                            <div class="tools-grid">
+                                <div class="tool-placeholder">CV</div>
+                                <div class="tool-placeholder">PS</div>
+                                <div class="tool-placeholder">AI</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card" data-category="design">
+                    <div class="project-image">
+                        <img src="assets/rumahhantu.png" alt="Ghost House Poster Preview"/>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-category">Design</div>
+                        <h3 class="project-title">Ghost House Poster</h3>
+                        <p class="project-description">
+                            In this project, one will design an exciting poster in a bid to capture the same energy in the post that is uploaded regarding the ghost house event of Dendam Rumah Pusaka. The design would be created using Canva, Photoshop, and Adobe illustrator with the dark and spooky backdrop with the theme of the haunted house, big red and white letters of the title of the event, and the most important details including dates when it will happen (12-15 May), at what time (8:00 PM - 11:30 PM), how many students have to pay (RM6 per student), and where it would occur (Gym Block B Inasis TNB). Spooky atmosphere and UUM and affiliations logos will be introduced to the poster to make it attractive and amazing to students to look at its facts and drool at its chilling beauty.
+                        </p>
+                        <div class="project-tools">
+                            <div class="tools-title">Tools Used:</div>
+                            <div class="tools-grid">
+                                <div class="tool-placeholder">CV</div>
+                                <div class="tool-placeholder">PS</div>
+                                <div class="tool-placeholder">AI</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card" data-category="design">
+                    <div class="project-image">
+                        <img src="assets/slr.png" alt="SLR Poster Preview"/>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-category">Design</div>
+                        <h3 class="project-title">SLR Poster</h3>
+                        <p class="project-description">
+                            On the basis of the uploaded poster, this project is aimed at designing an informative poster concerning a Systematic Literature Review (SLR), and it is entitled: Gamification in Multimedia Learning: Enhancing Engagement and Learning Outcomes. The design created with the help of Canva will include a simple blue layout with a place to provide Introduction, Methods, Findings, Discussion & Conclusion, Research Questions, Research Objectives, and Reference sections. It will contain a table of findings and will be branded with the UUM logo, trying to make the research on the effect of gamification on student engagement and learning outcomes professionally and organized.
+                        </p>
+                        <div class="project-tools">
+                            <div class="tools-title">Tools Used:</div>
+                            <div class="tools-grid">
+                                <div class="tool-placeholder">CV</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Web Development Projects -->
+                <div class="project-card" data-category="web">
+                    <div class="project-image">
+                        <img src="assets/f1.png" alt="F1 Instagram Analytics Dashboard Preview"/>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-category">Web Development</div>
+                        <h3 class="project-title">F1 Instagram Analytics Dashboard</h3>
+                        <p class="project-description">
+                            In order to show Instagram analytics for Formula 1, this project builds a basic dashboard that includes the following metrics: current followers, total growth, average engagement, likes, and years tracked.  The design incorporates a heatmap and radar chart to display monthly engagement and performance patterns over a five-year period. HTML serves as the framework, CSS styles the content with a motorsport theme, and Java provides interaction.
+                        </p>
+                        <div class="project-tools">
+                            <div class="tools-title">Tools Used:</div>
+                            <div class="tools-grid">
+                                <div class="tool-placeholder">VSC</div>
+                                <div class="tool-placeholder">HTML</div>
+                                <div class="tool-placeholder">CSS</div>
+                                <div class="tool-placeholder">JAVA</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card" data-category="web">
+                    <div class="project-image">
+                        <img src="assets/svg-instagram-analytics-dashboard.png" alt="SVG Worldwide Instagram Analytics Dashboard Preview"/>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-category">Web Development</div>
+                        <h3 class="project-title">SVG Worldwide Instagram Analytics Dashboard</h3>
+                        <p class="project-description">
+                            SVG Worldwide's Instagram data, including total followers, average engagement rate, total posts, and average likes, are shown on a stylish dashboard designed for this project.  The dashboard features a follower growth trend line chart and an engagement distribution pie chart, with options to select months and focus metrics for performance insights. It is structured using HTML, has a dark-themed look thanks to CSS, and is interactive thanks to Java.
+                        </p>
+                        <div class="project-tools">
+                            <div class="tools-title">Tools Used:</div>
+                            <div class="tools-grid">
+                                <div class="tool-placeholder">VSC</div>
+                                <div class="tool-placeholder">HTML</div>
+                                <div class="tool-placeholder">CSS</div>
+                                <div class="tool-placeholder">JAVA</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card" data-category="web">
+                    <div class="project-image">
+                        <img src="assets/autopia.png" alt="Autopia Preview"/>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-category">Web Development</div>
+                        <h3 class="project-title">Autopia</h3>
+                        <p class="project-description">
+                            This project creates a website named Autopia that sells car. This website includes automobile specifics like cost (RM 950/m* after incentives), order and virtual drive choices, and navigation for various car kinds. It is structured with HTML, has a sleek mountain-road theme with CSS, is interactive with Java, and has backend functions with PHP.  With its contemporary interface and obvious call-to-action buttons, the design seeks to draw in customers.
+                        </p>
+                        <div class="project-tools">
+                            <div class="tools-title">Tools Used:</div>
+                            <div class="tools-grid">
+                                <div class="tool-placeholder">VSC</div>
+                                <div class="tool-placeholder">HTML</div>
+                                <div class="tool-placeholder">CSS</div>
+                                <div class="tool-placeholder">JAVA</div>
+                                <div class="tool-placeholder">PHP</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card" data-category="web">
+                    <div class="project-image">
+                        <img src="assets/portfolio-website.png" alt="Interactive Portfolio Website Preview"/>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-category">Web Development</div>
+                        <h3 class="project-title">Interactive Portfolio Website</h3>
+                        <p class="project-description">
+                            This project creates an interactive portfolio for Shahril Aiman Ismail. Using HTML for structure, CSS for a dark-themed layout with vibrant accents, and Java for interactivity, the portfolio features sections for Home, Education, Skills, Projects, and Contact, along with a profile photo, bio, and social media links. The design includes a "Hire me" button to engage potential employers, showcasing a professional and dynamic online presence.
+                        </p>
+                        <div class="project-tools">
+                            <div class="tools-title">Tools Used:</div>
+                            <div class="tools-grid">
+                                <div class="tool-placeholder">VSC</div>
+                                <div class="tool-placeholder">HTML</div>
+                                <div class="tool-placeholder">CSS</div>
+                                <div class="tool-placeholder">JAVA</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Application Development Projects -->
+                 <div class="project-card" data-category="app">
+                    <div class="project-image">
+                        <img src="assets/highficruma.png" alt="High Fidelity Cik Iqa CRUMA Preview"/>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-category">Application Development</div>
+                        <h3 class="project-title">Cik Iqa Car Rental UUM Mobile Application</h3>
+                        <p class="project-description">
+                            This project develops a mobile application for Cik Iqa Car Rental UUM Mobile Application (CRUMA). Using VS Code as the IDE, Flutter and Dart for building a responsive interface, and Firebase for backend services, the app includes features like user sign-up/login, available car listings with pricing, profile management, and booking options with QR code payment integration. The design aims to provide a seamless car rental experience for UUM users with an intuitive and modern layout.
+                        </p>
+                        <div class="project-tools">
+                            <div class="tools-title">Tools Used:</div>
+                            <div class="tools-grid">
+                                <div class="tool-placeholder">VSC</div>
+                                <div class="tool-placeholder">FLU</div>
+                                <div class="tool-placeholder">DART</div>
+                                <div class="tool-placeholder">FBASE</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card" data-category="app">
+                    <div class="project-image">
+                        <img src="assets/loficruma.png" alt="Low fidelity Cik Iqa CRUMA Preview"/>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-category">Application Development</div>
+                        <h3 class="project-title">Low Fidelity Cik Iqa CRUMA</h3>
+                        <p class="project-description">
+                            This project involves creating a low-fidelity prototype for the Cik Iqa Car Rental UUM Mobile Application. Using Canva, the prototype outlines key screens including Get Started, Sign Up, Home Page, Booking, Profile, and Payment sections with basic wireframes. The design focuses on mapping out the user flow for car rental features like available cars and booking details, providing a simple and effective blueprint for further development.
+                        </p>
+                        <div class="project-tools">
+                            <div class="tools-title">Tools Used:</div>
+                            <div class="tools-grid">
+                                <div class="tool-placeholder">CV</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card" data-category="app">
+                    <div class="project-image">
+                        <img src="assets/highfistroma.png" alt="Low Fidelity STROMA Preview"/>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-category">Application Development</div>
+                        <h3 class="project-title">Low Fidelity STROMA</h3>
+                        <p class="project-description">
+                            This project creates a low-fidelity prototype for the Student Transportation Online Mobile Application (STROMA). Using Canva, the prototype outlines the rider user interface, including screens for Sign Up, Login, Passenger/Driver Menu, Pick-up Point, Destination Point, Choose Driver, Price, Successful Order, Route, and Review. The design maps out the user flow with features like location pinning, distance calculation, ETA, and driver selection, providing a basic framework for the student transportation service.
+                        </p>
+                        <div class="project-tools">
+                            <div class="tools-title">Tools Used:</div>
+                            <div class="tools-grid">
+                                <div class="tool-placeholder">CV</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card" data-category="app">
+                    <div class="project-image">
+                        <img src="assets/stromahifi.png" alt="High Fidelity STROMA Preview"/>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-category">Application Development</div>
+                        <h3 class="project-title">High Fidelity STROMA</h3>
+                        <p class="project-description">
+                            This project develops a high-fidelity prototype for the Student Transportation Online Mobile Application (STROMA). Using Canva, the design includes detailed screens for login, pick-up point selection, sign-up with email/Facebook, available cars, feedback, and payment, featuring vibrant colors, realistic car images, and interactive elements like buttons and maps. The redesign enhances user experience with a modern layout and improved navigation for student transportation services.
+                        </p>
+                        <div class="project-tools">
+                            <div class="tools-title">Tools Used:</div>
+                            <div class="tools-grid">
+                                <div class="tool-placeholder">CV</div>
+                                <div class="tool-placeholder">FG</div>
+                                <div class="tool-placeholder">FF</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Video & Animation Projects -->
+                 <div class="project-card" data-category="video">
+                    <div class="project-image">
+                        <img src="assets/vidd.png" alt="Video Documentary Preview"/>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-category">Video & Animation</div>
+                        <h3 class="project-title">Video Documentary</h3>
+                        <p class="project-description">
+                            This project creates a documentary video highlighting the journey of a student with kidney failure, using Adobe Premier Pro and Capcut for design and editing. The video includes visuals and text to narrate the student's challenges and resilience, aiming to raise awareness and support within the community.
+                        </p>
+                        <div class="project-tools">
+                            <div class="tools-title">Tools Used:</div>
+                            <div class="tools-grid">
+                                <div class="tool-placeholder">PP</div>
+                                <div class="tool-placeholder">CC</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card" data-category="video">
+                    <div class="project-image">
+                        <img src="assets/foley.png" alt="Foley Video Production Preview"/>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-category">Video & Animation</div>
+                        <h3 class="project-title">Foley Video Production</h3>
+                        <p class="project-description">
+                            This project produces a Foley video for scenes from "The Water Horse: Legend of the Deep," utilizing Capcut to design and Audacity to synchronize sound effects with visuals. The video enhances the cinematic experience by adding realistic audio elements tailored to the movie's narrative.
+                        </p>
+                        <div class="project-tools">
+                            <div class="tools-title">Tools Used:</div>
+                            <div class="tools-grid">
+                                <div class="tool-placeholder">AUD</div>
+                                <div class="tool-placeholder">CC</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                 <div class="project-card" data-category="video">
+                    <div class="project-image">
+                        <img src="assets/lltk.png" alt="Cashless Campus 3D Animation Animation Preview"/>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-category">Video & Animation</div>
+                        <h3 class="project-title">Cashless Campus 3D Animation</h3>
+                        <p class="project-description">
+                            This project develops a 3D animation titled "Long live the king" to promote a cashless campus initiative, using AutoCAD for modeling and Blender for animation. The video showcases the benefits of a cashless system with dynamic 3D visuals, targeting students and staff.
+                        </p>
+                        <div class="project-tools">
+                            <div class="tools-title">Tools Used:</div>
+                            <div class="tools-grid">
+                                <div class="tool-placeholder">AN</div>
+                                <div class="tool-placeholder">CC</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                 <div class="project-card" data-category="video">
+                    <div class="project-image">
+                        <img src="assets/neim.png" alt="Negative Ethics in Management Video Animation Preview"/>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-category">Video & Animation</div>
+                        <h3 class="project-title">Negative Ethics in Management Video Animation</h3>
+                        <p class="project-description">
+                            This project creates a video animation addressing negative ethics in management, using Adobe Animate for character design and CapCut for editing. The animation highlights ethical issues with engaging visuals and narration to educate viewers on management practices.
+                        </p>
+                        <div class="project-tools">
+                            <div class="tools-title">Tools Used:</div>
+                            <div class="tools-grid">
+                                <div class="tool-placeholder">AN</div>
+                                <div class="tool-placeholder">CC</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card" data-category="video">
+                    <div class="project-image">
+                        <img src="assets/lipsync.png" alt="2D Character Lipsync Preview"/>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-category">Video & Animation</div>
+                        <h3 class="project-title">2D Character Lipsync </h3>
+                        <p class="project-description">
+                            This project produces a 2D character lipsync animation, utilizing Adobe Animate for frame-by-frame animation and CapCut for final edits. The animation focuses on synchronizing character mouth movements with dialogue, creating a realistic and engaging visual effect.
+                        </p>
+                        <div class="project-tools">
+                            <div class="tools-title">Tools Used:</div>
+                            <div class="tools-grid">
+                                <div class="tool-placeholder">AN</div>
+                                <div class="tool-placeholder">CC</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card" data-category="video">
+                    <div class="project-image">
+                        <img src="assets/nowyouseeme.png" alt="Camera Shot and Movement Video Production Preview"/>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-category">Video & Animation</div>
+                        <h3 class="project-title">Camera Shot And Movement Video Production</h3>
+                        <p class="project-description">
+                            This project produces a video analyzing camera shots and movements from "Now you see me 2," using Canva for design and editing. The video breaks down key scenes with annotations and visuals to illustrate cinematic techniques, offering an educational perspective for viewers.
+                        </p>
+                        <div class="project-tools">
+                            <div class="tools-title">Tools Used:</div>
+                            <div class="tools-grid">
+                                <div class="tool-placeholder">CV</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Game Development Projects -->
+                <div class="project-card" data-category="game">
+                    <div class="project-image">
+                        <img src="assets/lotr.png" alt="Legend on The Run Game Preview"/>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-category">Game Development</div>
+                        <h3 class="project-title">Legend on The Run Game</h3>
+                        <p class="project-description">
+                            This project develops a 2D game titled "Legend on the Run," featuring a Malacca historical vibe with Hang Tuah as the main character. Using RPG Maker, the game incorporates traditional Malaccan settings, historical narratives, and interactive quests, aiming to immerse players in an educational and adventurous experience.
+                        </p>
+                        <div class="project-tools">
+                            <div class="tools-title">Tools Used:</div>
+                            <div class="tools-grid">
+                                <div class="tool-placeholder">RPG</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card" data-category="game">
+                    <div class="project-image">
+                        <img src="assets/gbl.png" alt="Game Based Learning for Preschool Preview"/>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-category">Game Development</div>
+                        <h3 class="project-title">Game Based Learning for Preschool</h3>
+                        <p class="project-description">
+                            This project creates a game-based learning platform for preschoolers, featuring an interface built with HTML, CSS, and Java for interactivity, and quizzes developed using Wix. The design offers engaging educational content with a user-friendly layout, aimed at enhancing early learning through fun and interactive activities.
+                        </p>
+                        <div class="project-tools">
+                            <div class="tools-title">Tools Used:</div>
+                            <div class="tools-grid">
+                                <div class="tool-placeholder">HTML</div>
+                                <div class="tool-placeholder">CSS</div>
+                                <div class="tool-placeholder">JAVA</div>
+                                <div class="tool-placeholder">CV</div>
+                                <div class="tool-placeholder">WIX</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- JavaScript for filtering -->
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const projects = document.querySelectorAll('.project-card');
+
+        filterButtons.forEach(button => {
+          button.addEventListener('click', () => {
+            // Remove 'active' class from all buttons
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            // Add 'active' class to the clicked button
+            button.classList.add('active');
+
+            const filterValue = button.getAttribute('data-filter');
+
+            projects.forEach(project => {
+              const projectCategory = project.getAttribute('data-category');
+
+              if (filterValue === 'all' || projectCategory === filterValue) {
+                project.classList.remove('hidden');
+                project.style.display = 'block';
+                project.style.opacity = '1';
+              } else {
+                project.classList.add('hidden');
+                project.style.display = 'none';
+              }
+            });
+          });
+        });
+      });
+    </script>
+</body>
+</html>

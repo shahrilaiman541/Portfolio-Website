@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Portfolio - Education</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet" />
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: #121212; /* Dark background */
+    color: #e0e0e0; /* Light text for contrast */
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* Container */
+  .container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Navigation */
+  .nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: rgba(18, 18, 18, 0.95);
+    backdrop-filter: blur(8px);
+    z-index: 1000;
+    padding: 1rem 2rem;
+    transition: all 0.3s ease;
+  }
+
+  .nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap; /* Allow wrapping on small screens */
+  }
+
+  .logo {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #00bfa5; /* New accent color */
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    list-style: none;
+    gap: 1.5rem;
+    flex-wrap: wrap; /* Wrap on small screens */
+    margin-top: 0.5rem;
+  }
+
+  .nav-links a {
+    color: #e0e0e0;
+    text-decoration: none;
+    transition: color 0.3s ease, border-bottom 0.3s ease;
+    position: relative;
+    font-weight: 500;
+  }
+
+  .nav-links a:hover,
+  .nav-links a.active {
+    color: #00bfa5; /* New accent on hover/active */
+    border-bottom: 2px solid #00bfa5;
+  }
+
+  /* Main Content */
+  .main-content {
+    flex: 1;
+    padding: 120px 2rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  /* Page Header */
+  .page-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    animation: fadeInUp 0.8s ease-out;
+  }
+
+  .page-title {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, #00bfa5, #ff4081);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+  }
+
+  .page-subtitle {
+    font-size: 1.2rem;
+    color: #a0a0a0;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+  }
+
+  /* Timeline */
+  .timeline {
+    position: relative;
+    margin: 2rem 0;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, #00bfa5, #ff4081);
+    transform: translateX(-50%);
+  }
+
+  .timeline-item {
+    margin: 2rem 0;
+    position: relative;
+    animation: fadeInUp 0.8s ease-out;
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping for responsiveness */
+    align-items: center;
+  }
+
+  /* Alternating positions for timeline items */
+  .timeline-item:nth-child(even) .timeline-content {
+    margin-left: calc(50% + 30px);
+  }
+  .timeline-item:nth-child(odd) .timeline-content {
+    margin-right: calc(50% + 30px);
+    text-align: right;
+  }
+
+  /* Timeline Dot */
+  .timeline-dot {
+    position: absolute;
+    left: 50%;
+    top: 20px;
+    width: 20px;
+    height: 20px;
+    background: #00bfa5;
+    border-radius: 50%;
+    transform: translateX(-50%);
+    box-shadow: 0 0 15px rgba(0, 191, 165, 0.4);
+    z-index: 1;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+
+  .timeline-content {
+    background: rgba(18, 18, 18, 0.8);
+    padding: 2rem;
+    border-radius: 15px;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(0, 191, 165, 0.2);
+    transition: all 0.3s ease;
+    min-width: 250px;
+    max-width: 600px;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  .timeline-content:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 191, 165, 0.4);
+    border-color: rgba(0, 191, 165, 0.4);
+  }
+
+  .education-year {
+    color: #00bfa5;
+    font-weight: bold;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  .education-degree {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: #e0e0e0;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  .education-school {
+    color: #ff4081; /* Changed accent color for school */
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  .education-description {
+    color: #cccccc;
+    line-height: 1.6;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  .education-gpa {
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    background: rgba(0, 191, 165, 0.1);
+    border-radius: 25px;
+    display: inline-block;
+    color: #00bfa5;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  /* Animations */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(50px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Responsive tweaks */
+  @media (max-width: 768px) {
+    .nav {
+      padding: 1rem;
+    }
+    .nav-container {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .nav-links {
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 0.5rem;
+    }
+    .page-title {
+      font-size: 2rem;
+    }
+    .timeline::before {
+      left: 20px;
+    }
+    .timeline-dot {
+      left: 20px;
+    }
+    .timeline-item {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .timeline-item:nth-child(even) .timeline-content,
+    .timeline-item:nth-child(odd) .timeline-content {
+      margin: 0 0 1rem 40px;
+      text-align: left;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <!-- Navigation -->
+  <nav class="nav" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="logo">Portfolio</a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="education.html" class="active">Education</a></li>
+        <li><a href="skills.html">Skills</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="page-header">
+      <h1 class="page-title">Education</h1>
+      <p class="page-subtitle">My Academic Journey</p>
+    </div>
+
+    <div class="timeline">
+      <!-- First Education Entry -->
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="education-year">2022 - Recent</div>
+          <h3 class="education-degree">Bachelor of Science Hons. (Multimedia)</h3>
+          <p class="education-school">Universiti Utara Malaysia</p>
+          <p class="education-description">
+            Specialized in Software Engineering and Web Development. Completed coursework in 
+            algorithms, data structures, database systems, and modern web technologies. 
+            Participated in various coding competitions and hackathons.
+          </p>
+          <span class="education-gpa">CGPA: 3.55</span>
+        </div>
+      </div>
+      <!-- Second Education Entry -->
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="education-year">2020 - 2022</div>
+          <h3 class="education-degree">Sijil Tinggi Agama Malaysia</h3>
+          <p class="education-school">Institut Al Quran Terengganu</p>
+          <p class="education-description">
+            Completed higher secondary education with focus on Mathematics, Physics, and Chemistry. 
+            Developed strong analytical and problem-solving skills that formed the foundation 
+            for my programming career.
+          </p>
+          <span class="education-gpa">Grade: Jayyid Jiddan</span>
+        </div>
+      </div>
+      <!-- Third Education Entry -->
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="education-year">2018 - 2020</div>
+          <h3 class="education-degree">Sijil Pelajaran Malaysia</h3>
+          <p class="education-school">Institut Al Quran Terengganu</p>
+          <p class="education-description">
+            Intensive 6-month program covering modern web development technologies including 
+            React, Node.js, Express, MongoDB, and cloud deployment. Built multiple 
+            real-world projects and gained hands-on experience.
+          </p>
+          <span class="education-gpa">Grade: 1A+ 2A 5B+ 1B</span>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+  // Optional: Add smooth scroll or other scripts if needed
+  // Example: hide navbar on scroll down and show on scroll up
+  document.addEventListener('DOMContentLoaded', function() {
+    const navbar = document.getElementById('navbar');
+    let lastScrollTop = 0;
+
+    window.addEventListener('scroll', function() {
+      let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      
+      if (scrollTop > lastScrollTop) {
+        // Scrolling down
+        navbar.style.transform = 'translateY(-100%)';
+      } else {
+        // Scrolling up
+        navbar.style.transform = 'translateY(0)';
+      }
+      lastScrollTop = scrollTop;
+    });
+
+    // Animate timeline items on scroll
+    const timelineItems = document.querySelectorAll('.timeline-item');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.animationDelay = '0.2s';
+          entry.target.classList.add('animate');
+        }
+      });
+    }, {
+      threshold: 0.1
+    });
+
+    timelineItems.forEach(item => {
+      observer.observe(item);
+    });
+
+    // Hover effects for timeline dots
+    const timelineContents = document.querySelectorAll('.timeline-content');
+
+    timelineContents.forEach(content => {
+      content.addEventListener('mouseenter', function() {
+        const dot = this.parentElement.querySelector('.timeline-dot');
+        dot.style.transform = 'translateX(-50%) scale(1.5)';
+        dot.style.boxShadow = '0 0 30px rgba(0, 191, 165, 0.8)';
+      });
+      content.addEventListener('mouseleave', function() {
+        const dot = this.parentElement.querySelector('.timeline-dot');
+        dot.style.transform = 'translateX(-50%) scale(1)';
+        dot.style.boxShadow = '0 0 20px rgba(0, 191, 165, 0.5)';
+      });
+    });
+  });
+</script>
+</body>
+</html>
